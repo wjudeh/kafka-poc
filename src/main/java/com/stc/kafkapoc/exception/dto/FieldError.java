@@ -1,4 +1,4 @@
-package com.stc.kafkapoc.exception;
+package com.stc.kafkapoc.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @Getter
-public record FieldErrorDTO(String field, String message) implements Serializable {
+public record FieldError(String field, String message) implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

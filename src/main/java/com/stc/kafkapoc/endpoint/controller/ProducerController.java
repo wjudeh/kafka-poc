@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-public class ProducerServiceController {
+public class ProducerController {
 
     private final ProducerService producerService;
 

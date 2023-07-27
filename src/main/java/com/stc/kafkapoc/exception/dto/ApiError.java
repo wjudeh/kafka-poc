@@ -1,4 +1,4 @@
-package com.stc.kafkapoc.exception;
+package com.stc.kafkapoc.exception.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Getter
 @Builder
 @JsonInclude(NON_NULL)
-public class ApiErrorDTO {
+public class ApiError {
 
     private final ErrorCode code;
 

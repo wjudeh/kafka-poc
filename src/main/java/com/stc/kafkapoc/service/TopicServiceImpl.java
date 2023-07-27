@@ -1,6 +1,6 @@
 package com.stc.kafkapoc.service;
 
-import com.stc.kafkapoc.exception.ServiceException;
+import com.stc.kafkapoc.exception.NcWebServiceException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static com.stc.kafkapoc.exception.ErrorCode.TOPIC_NOT_CREATED;
+import static com.stc.kafkapoc.exception.dto.ErrorCode.TOPIC_NOT_CREATED;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 @AllArgsConstructor
@@ -67,7 +67,7 @@ public class TopicServiceImpl implements TopicService {
 
         } catch (ExecutionException e) {
 
-            throw ServiceException.build(CONFLICT, e)
+            throw NcWebServiceException.build(CONFLICT, e)
                     .addMessage(TOPIC_NOT_CREATED, e.getMessage());
         }
 

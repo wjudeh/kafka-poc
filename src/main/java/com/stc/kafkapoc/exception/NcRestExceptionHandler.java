@@ -1,5 +1,7 @@
 package com.stc.kafkapoc.exception;
 
+import com.stc.kafkapoc.exception.dto.ApiError;
+import com.stc.kafkapoc.exception.dto.ValidationError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -11,52 +13,52 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-import static com.stc.kafkapoc.exception.ErrorCode.UNKNOWN_ERROR;
-import static com.stc.kafkapoc.exception.ErrorCode.VALIDATION_ERROR;
+import static com.stc.kafkapoc.exception.dto.ErrorCode.UNKNOWN_ERROR;
+import static com.stc.kafkapoc.exception.dto.ErrorCode.VALIDATION_ERROR;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
 @Slf4j
-public class RestExceptionHandler {
+public class NcRestExceptionHandler {
 
-    @ExceptionHandler(ServiceException.class)
-    public ResponseEntity<ApiErrorDTO> handleServiceException(ServiceException ex) {
+    @ExceptionHandler(NcWebServiceException.class)
+    public ResponseEntity<ApiError> handleServiceException(NcWebServiceException ex) {
 
         log.error(ex.getMessage());
 
-        ApiErrorDTO apiErrorDTO = ex.getApiErrorDTO();
+        ApiError apiError = ex.getApiError();
 
-        if (apiErrorDTO != null) {
+        if (apiError != null) {
             return ResponseEntity.status(ex.getHttpStatusCode())
-                    .body(apiErrorDTO);
+                    .body(apiError);
         }
 
         return ResponseEntity.status(ex.getHttpStatusCode()).build();
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
-    public ResponseEntity<ValidationErrorDTO> handleRequestNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ValidationError> handleRequestNotValidException(MethodArgumentNotValidException ex) {
 
         log.error(ex.getMessage());
 
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
 
-        ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO(VALIDATION_ERROR.name());
+        ValidationError validationError = new ValidationError(VALIDATION_ERROR.name());
 
         for (FieldError fieldError : fieldErrors) {
-            validationErrorDTO.add(fieldError.getField(), fieldError.getDefaultMessage());
+            validationError.add(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return ResponseEntity.badRequest().body(validationErrorDTO);
+        return ResponseEntity.badRequest().body(validationError);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorDTO> handleException(Exception ex) {
+    public ResponseEntity<ApiError> handleException(Exception ex) {
 
         log.error(ex.getMessage());
 
-        ApiErrorDTO body = ApiErrorDTO.builder().code(UNKNOWN_ERROR)
+        ApiError body = ApiError.builder().code(UNKNOWN_ERROR)
                 .message("An error occurred, general rest advice handle caught the exception" + ex.getClass().getSimpleName())
                 .build();
 
