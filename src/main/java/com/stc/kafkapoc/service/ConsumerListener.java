@@ -33,6 +33,8 @@ public class ConsumerListener {
 
             Notification notification = new Notification();
             notification.setValue(message);
+            notification.setName("name");
+            notification.setKey("key");
             notificationCenterRepository.save(notification);
             log.info("saved! => {}", message);
         }

@@ -7,13 +7,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "table_test")
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_sequence")
-    @SequenceGenerator(name = "notification_sequence", sequenceName = "notification_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    private String name;
+
+    @Column(name = "`key`")
     private String key;
 
     private String value;

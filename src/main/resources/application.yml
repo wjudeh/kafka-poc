@@ -1,0 +1,18 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: aV9SCypniwdl34l4j4lvfN9soHKRB2bJ
+    url: jdbc:mysql://localhost:3306/dbTest
+
+
+
+  jpa:
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql:true
